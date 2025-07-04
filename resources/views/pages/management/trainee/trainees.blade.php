@@ -110,40 +110,16 @@
                     @endif
                 </div>
 
-                @if(($trainees->count() > 0))
-                    <div class="m-5 p-5 flex justify-between">
-                        <p class="font-bold">Total Enrollment: {{$trainees->total()}}</p>
-                        <nav aria-label="Page navigation example py-5">
-                            <ul class="flex items-center -space-x-px h-10 text-base">
-                            <li  class="{{$trainees->currentPage() == 1 ? 'page-item disabled':'page-item'}}">
-                                <a href="{{route('manage-students', ['page' =>$trainees->currentPage() - 1])}}" class="{{$trainees->currentPage() == 1? 'cursor-not-allowed flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white':'flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                                    </svg>
-                                </a>
-                            </li>
-                            @for($i = 1; $i <= $trainees->lastPage(); $i++)
-                            <li>
-                                <a href="{{route('manage-students', ['page' => $i])}}" class="{{$trainees->currentPage() == $i ?'flex items-center justify-center px-4 h-10 leading-tight text-white bg-blue-800 border border-blue-800 hover:bg-blue-800 hover:text-white dark:bg-blue-800 dark:border-blue-800 dark:text-white dark:hover:bg-blue-800 dark:hover:text-white' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                                    {{$i}}
-                                </a>
-                            </li>
-                            @endfor
-
-                            <li class="{{$trainees->currentPage() == $trainees->lastPage() ? 'page-item disabled': 'page-item'}}">
-                                <a href="{{route('manage-students', ['page' =>$trainees->currentPage() + 1])}}" class="{{$trainees->currentPage() == $trainees->lastPage() ? 'cursor-not-allowed flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-:'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                        </nav>
-                    </div>
-                @endif
+                 
+                <div class="max-w-7xl mx-auto  pb-3 flex justify-start">
+        @if(($trainees->count() > 0))
+        <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="m-5 p-5 flex justify-end">
+                 {{$trainees->links()}}
+            </div>
+        </div>
+        @endif
+    </div>
             </div>
         </div>
     </div>
