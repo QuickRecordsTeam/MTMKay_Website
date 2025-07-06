@@ -136,36 +136,7 @@
 
     @if(($comments->count() > 0))
         <div class="flex justify-center mb-4 pb-4">
-            <nav aria-label="Page navigation example">
-                <ul class="flex items-center -space-x-px h-10 text-base">
-                    <li  class="{{$comments->currentPage() == 1 ? 'page-item disabled':'page-item'}}">
-                        <a href="{{route('show.blog.comments', ['page' =>$comments->currentPage() - 1, 'slug'  => $blog->slug])}}" class="{{$comments->currentPage() == 1? 'cursor-not-allowed flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white':'flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                            <span class="sr-only">Previous</span>
-                            <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                            </svg>
-                        </a>
-                    </li>
-                    @for($i = 1; $i <= $comments->lastPage(); $i++)
-                        <li>
-                            <a href="{{route('show.blog.comments', ['page' => $i, 'slug'  => $blog->slug])}}" class="{{$comments->currentPage() == $i ?'flex items-center justify-center px-4 h-10 leading-tight text-white bg-blue-800 border border-blue-800 hover:bg-blue-800 hover:text-white dark:bg-blue-800 dark:border-blue-800 dark:text-white dark:hover:bg-blue-800 dark:hover:text-white' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                                {{$i}}
-                            </a>
-                        </li>
-                    @endfor
-
-                    <li class="{{$comments->currentPage() == $comments->lastPage() ? 'page-item disabled': 'page-item'}}">
-                        <a href="{{route('show.blog.comments', ['page' =>$comments->currentPage() + 1, 'slug'  => $blog->slug])}}" class="{{$comments->currentPage() == $comments->lastPage() ? 'cursor-not-allowed flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-:'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}}">
-                            <span class="sr-only">Next</span>
-                            <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
+            {{ $comments->links() }}
         </div>
     @endif
 
