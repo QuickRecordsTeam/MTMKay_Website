@@ -1,4 +1,4 @@
-<x-modal name="confirm-blog-image-deletion{{$image->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="confirm-blog-image-deletion">
+<x-modal name="confirm-blog-image-deletion{{$image->id}}" :show="$errors->isNotEmpty()" focusable x-data="confirm-blog-image-deletion">
     <form method="post" action="{{ route('confirm-blog-image-deletion', ['slug' => $blog->slug ?? '', 'imageSlug' => $image->slug]) }}" class="p-6">
         @csrf
         @method('delete')

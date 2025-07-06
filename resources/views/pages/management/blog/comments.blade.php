@@ -80,36 +80,30 @@
                                     {{$comment->status}}
                                 </div>
                             @endif
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <span><i class="fa fa-info-circle text-blue-800 cursor-pointer  "></i></span>
-                                </x-slot>
 
-                                <x-slot name="content">
-                                    @if($comment->status == \App\Constant\BlogState::PENDING)
-                                        <x-dropdown-link x-data="edit_comment{{$comment->id ?? ''}}"
-                                                         x-on:click.prevent="$dispatch('open-modal', 'add-update-comment-modal{{$comment->id}}')" class="cursor-pointer">
-                                            <span><i class="fa fa-pencil text-blue-800 cursor-pointer  mr-5"></i>{{ __('Edit Comment') }}</span>
-                                        </x-dropdown-link>
-                                    @endif
-                                    @if($comment->status == \App\Constant\BlogState::PENDING || $comment->status == \App\Constant\BlogState::REJECTED)
-                                    <x-dropdown-link x-data="approve-blog-state{{$comment->id}}"
-                                                     x-on:click.prevent="$dispatch('open-modal', 'approve-blog-state{{$comment->id}}', {name:'APPROVE'})" class="cursor-pointer">
-                                        <span><i class="fa fa-check text-green-700 cursor-pointer mr-5 "></i>{{ __('Approve comment') }}</span>
-                                    </x-dropdown-link>
-                                    @endif
-                                    @if($comment->status == \App\Constant\BlogState::PENDING || $comment->status == \App\Constant\BlogState::APPROVED)
-                                    <x-dropdown-link x-data="reject-blog-state-change{{$comment->id}}"
-                                                     x-on:click.prevent="$dispatch('open-modal', 'reject-blog-state-change{{$comment->id}}', {name:'REJECT'})" class="cursor-pointer">
-                                        <span><i class="fa fa-close text-yellow-500 cursor-pointer mr-5 "></i>{{ __('Reject comment') }}</span>
-                                    </x-dropdown-link>
-                                    @endif
-                                    <x-dropdown-link x-data="delete-blog-comment{{$comment->id}}"
-                                                     x-on:click.prevent="$dispatch('open-modal', 'delete-blog-comment{{$comment->id}}', {name:'DELETE'})" class="cursor-pointer text-red-600">
-                                        <span><i class="fa fa-trash text-red-600 cursor-pointer mr-5 "></i>{{ __('Delete comment') }}</span>
-                                    </x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
+                            <div>
+                                @if($comment->status == \App\Constant\BlogState::PENDING)
+                    <x-secondary-button  x-data="edit_comment{{$comment->id ?? ''}}"
+                                                         x-on:click.prevent="$dispatch('open-modal', 'add-update-comment-modal{{$comment->id}}')">
+                        <i class="fa fa-pencil text-blue-800 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+                     
+                    <x-secondary-button x-data="approve-blog-state{{$comment->id}}"
+                                                     x-on:click.prevent="$dispatch('open-modal', 'approve-blog-state{{$comment->id}}', {name:'APPROVE'})" class="ml-3">
+                        <i class="fa fa-check text-green-700 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+                     
+                    <x-secondary-button x-data="reject-blog-state-change{{$comment->id}}"
+                                                     x-on:click.prevent="$dispatch('open-modal', 'reject-blog-state-change{{$comment->id}}', {name:'REJECT'})" class="ml-3">
+                        <i class="fa fa-close text-yellow-500 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+                    @endif
+                    <x-secondary-button x-data="delete-blog-comment{{$comment->id}}"
+                                                     x-on:click.prevent="$dispatch('open-modal', 'delete-blog-comment{{$comment->id}}', {name:'DELETE'})" class="ml-3">
+                      <i class="fa fa-trash text-red-600 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+
+                </div>
                             @include('pages.management.blog.blog-status-confirmation-modal')
                         </div>
                     </div>

@@ -31,7 +31,7 @@ XMLHttpRequest.prototype.open = function () {
 
 
     // Show loader on all link clicks
-    document.querySelectorAll('a').forEach(link => {
+    document.querySelectorAll('a:not(.blog_links)').forEach(link => {
         link.addEventListener('click', function() {
             document.getElementById('loader').style.display = 'flex';
         });

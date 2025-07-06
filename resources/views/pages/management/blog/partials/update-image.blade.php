@@ -27,7 +27,7 @@
                 <div class="w-full">
                     <x-input-label for="files" :value="__('Blog Images')" />
                     <x-text-input id="files" multiple name="files[]" type="file" class="mt-1 block w-full border" :value="old('files')" required    />
-                    <x-input-error class="mt-2" :messages="$errors->get('files')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('files')" />
                     @if(session('error'))
                         <x-input-error class="mt-2" :messages="session('msg')">
                         </x-input-error>

@@ -10,7 +10,7 @@
         <p class="my-2 text-gray-900" >
             {{$enrollment->trainingSlot->program->title}}
         </p>
-        <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        <x-input-error class="mt-2" :messages="$errors->first('name')" />
     </div>
 
     <div class="my-4">
@@ -18,7 +18,7 @@
         <p class="my-2 text-gray-900">
             {{$enrollment->trainingSlot->program->duration}} Months
         </p>
-        <x-input-error class="mt-2" :messages="$errors->get('duration')" />
+        <x-input-error class="mt-2" :messages="$errors->first('duration')" />
     </div>
 
     <div class="my-4">
@@ -26,7 +26,7 @@
         <p class="my-2 text-gray-900">
             {{number_format($enrollment->trainingSlot->program->cost)}} XAF
         </p>
-        <x-input-error class="mt-2" :messages="$errors->get('cost')" />
+        <x-input-error class="mt-2" :messages="$errors->first('cost')" />
     </div>
 
     <div class="my-4">
@@ -34,7 +34,7 @@
         <p class="my-3 text-gray-900 font-medium">
             {!! $enrollment->trainingSlot->program->objective !!}
         </p>
-        <x-input-error class="mt-2" :messages="$errors->get('objective')" />
+        <x-input-error class="mt-2" :messages="$errors->first('objective')" />
     </div>
 
     <div class="my-4">

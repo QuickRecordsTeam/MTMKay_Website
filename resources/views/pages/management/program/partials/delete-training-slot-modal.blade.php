@@ -1,4 +1,4 @@
-<x-modal name="confirm-deletion{{$value->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="confirm-deletion">
+<x-modal name="confirm-deletion{{$value->id}}" :show="$errors->isNotEmpty()" focusable x-data="confirm-deletion">
     <div class="p-6">
         <form method="post" action="{{ route('manage.training.slot.destroy', ['slug' => $value->slug]) }}"  >
             @csrf

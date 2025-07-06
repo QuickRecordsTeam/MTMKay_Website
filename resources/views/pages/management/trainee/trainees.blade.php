@@ -87,9 +87,7 @@
                                             <x-dropdown-link href="{{route('manage-students.view.payments', ['slug' => $value->slug])}}">
                                                 <span><i class="fa fa-money   cursor-pointer mr-5 "></i>{{ __('View Payments') }}</span>
                                             </x-dropdown-link>
-                                            <x-dropdown-link x-on:click.prevent="$dispatch('open-modal', 'fee-payment{{$value->id}}')">
-                                                <span><i class="fa fa-money   cursor-pointer mr-5 "></i>{{ __('Make Payment') }}</span>
-                                            </x-dropdown-link>
+                                             
                                             <x-dropdown-link   class="text-red-600" x-on:click.prevent="$dispatch('open-modal', 'confirm-trainee-deletion{{$value->id}}')">
                                                 <span><i class="fa fa-trash text-red-600 cursor-pointer mr-6 "></i>{{ __('Remove') }}</span>
                                             </x-dropdown-link>

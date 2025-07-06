@@ -1,5 +1,5 @@
 <section>
-    <x-modal name="make-payment-modal" :show="$errors->userDeletion->isNotEmpty()" focusable :data="'make payment'" :maxWidth="$enrollment->has_completed_payment?'md':'2xl'">
+    <x-modal name="make-payment-modal" :show="$errors->isNotEmpty()" focusable :data="'make payment'" :maxWidth="$enrollment->has_completed_payment?'md':'2xl'">
 
         @if($enrollment->has_completed_payment)
 
@@ -45,25 +45,25 @@
                 <div class="my-5 mx-5">
                     <x-input-label for="amount" :value="__('Program Cost')" />
                     <x-text-input id="program_cost" name="program_cost" type="number" class="mt-1 block w-full" :value="$enrollment->trainingSlot->program->cost ?? ''" disabled  />
-                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('name')" />
                 </div>
 
                 <div class="my-5 mx-5">
                     <x-input-label for="amount" :value="__('Balance')" />
                     <x-text-input id="balance" name="balance" type="number" class="mt-1 block w-full" :value="$balance" disabled  />
-                    <x-input-error class="mt-2" :messages="$errors->get('balance')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('balance')" />
                 </div>
 
                 <div class="my-5 mx-5">
                     <x-input-label for="name" :value="__('Amount Deposited')" />
                     <x-text-input id="amount_deposited" name="amount_deposited" type="number" class="mt-1 block w-full" :value="old('amount_deposited', $enrollment->amount_deposited)" required autofocus autocomplete="amount_deposited" />
-                    <x-input-error class="mt-2" :messages="$errors->get('amount_deposited')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('amount_deposited')" />
                 </div>
 
                 <div class="my-5 mx-5">
                     <x-input-label for="amount" :value="__('Payment Date')" />
                     <x-text-input id="payment_date" name="payment_date" type="date" class="mt-1 block w-full" :value="old('payment_date', \Carbon\Carbon::now()->format('yyyy/mm/dd'))" autofocus  required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('payment_date')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('payment_date')" />
                 </div>
 
                 <div class="mt-6 flex justify-end mb-5 py-4 mx-5" >

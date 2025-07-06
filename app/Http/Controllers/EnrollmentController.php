@@ -57,7 +57,7 @@ class EnrollmentController extends Controller
             });
         }
 
-        $trainees = $trainees->paginate(10);
+        $trainees = $trainees->paginate(15);
         $programs = Program::all();
         $date     = Carbon::now();
         $data = [

@@ -78,19 +78,16 @@
                                 @endif
 
                                 <td class="border  py-4 text-center cursor-pointer">
-                                    <x-dropdown align="right" width="48" style="z-index: 5">
-                                        <x-slot name="trigger">
-                                            <span><i class="fa fa-bars"></i></span>
-                                        </x-slot>
-                                        <x-slot name="content">
-                                            <x-dropdown-link x-data="update-training-slot-modal" x-on:click.prevent="$dispatch('open-modal', 'update-training-slot-modal{{$value->id}}')">
-                                                <span><i class="fa fa-pencil   cursor-pointer mr-5 "></i>{{ __('Edit Slot') }}</span>
-                                            </x-dropdown-link>
-                                            <x-dropdown-link   class="text-red-600" x-data="confirm-deletion" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion{{$value->id}}')">
-                                                <span><i class="fa fa-trash text-red-600 cursor-pointer mr-6 "></i>{{ __('Remove Slot') }}</span>
-                                            </x-dropdown-link>
-                                        </x-slot>
-                                    </x-dropdown>
+                                    
+                                    <div>
+                    <x-secondary-button x-data="update-training-slot-modal"
+                        x-on:click.prevent="$dispatch('open-modal', 'update-training-slot-modal{{$value->id}}')">
+                        <i class="fa fa-pencil text-blue-800 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+                    <x-secondary-button x-data="confirm-deletion" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion{{$value->id}}')" class="ml-3">
+                        <i class="fa fa-trash text-red-700 cursor-pointer" style="font-size: medium"></i>
+                    </x-secondary-button>
+                </div>
                                 </td>
                             </tr>
                             @include('pages.management.program.partials.edit-training-slot-modal')

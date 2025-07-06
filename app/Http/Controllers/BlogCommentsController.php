@@ -61,8 +61,8 @@ class BlogCommentsController extends Controller
        $validData = $request->validate([
            'name' => 'required|string|max:60|min:5|max:255',
            'email' => 'required|email|string|lowercase|max:255',
-           'subject' => 'required|string|max:500|min:40',
-           'message' => 'required|string|max:1000|min:100'
+           'subject' => 'required|string|max:500|min:10',
+           'message' => 'required|string|max:1000|min:50'
        ]);
 
        BlogComments::create([

@@ -32,7 +32,7 @@
                     <div class="col-md-4 mt-4">
                         <a href="{{route('show-training', ['slug' => $program->slug])}}">
                             <div class="course_item">
-                            <img src="{{$program->getImagePath($program, $program->image_path)}}" alt="" width="100%" height="100%">
+                            <img src="{{$program->getImagePath($program, $program->image_path)}}" alt="" width="100%" style="height:350px !important;">
                             <div class="hover_text">
                                 <a href="{{route('show-training', ['slug' => $program->slug])}}"><h4>{{$program->title}}</h4></a>
                                 <ul class="list">

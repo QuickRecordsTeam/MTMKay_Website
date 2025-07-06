@@ -1,4 +1,4 @@
-<x-modal name="delete_outline{{$outline->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="delete-outline">
+<x-modal name="delete_outline{{$outline->id}}" :show="$errors->isNotEmpty()" focusable x-data="delete-outline">
     <form method="post" action="{{ route('program.delete.outline', ['slug' => $program->slug, 'outlineSlug' => $outline->slug]) }}" class="p-6" >
         @csrf
         @method('delete')

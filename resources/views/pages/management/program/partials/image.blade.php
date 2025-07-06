@@ -21,7 +21,7 @@
                 <div class="w-full">
                     <x-input-label for="image_path" :value="__('Program Image')" />
                     <x-text-input id="image_path" name="image_path" type="file" class="mt-1 block w-full" :value="old('image_path', $program->image_path ?? '')" required    />
-                    <x-input-error class="mt-2" :messages="$errors->get('image_path')" />
+                    <x-input-error class="mt-2" :messages="$errors->first('image_path')" />
                 </div>
 
                 <div class="flex items-center gap-4">
