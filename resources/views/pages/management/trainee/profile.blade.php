@@ -34,6 +34,12 @@
                     @include('pages.management.trainee.partials.payment-info')
                 </div>
             </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-full">
+                    @include('pages.management.trainee.partials.delete-trainee')
+                </div>
+            </div>
         </div>
     </div>
 
