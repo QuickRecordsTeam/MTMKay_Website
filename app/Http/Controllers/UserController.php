@@ -27,14 +27,19 @@ class UserController extends Controller
 
         $program = Program::where('slug', $slug)->firstOrFail();
 
-        $this->validateEnrollmentNumber($request);
+        $isNotOpenForEnrollment = $this->validateEnrollmentNumber($request);
+
+        if($isNotOpenForEnrollment){
+            return response()->json(['message' => 'Training slot already reach the maximum number of avalaible seats. Please apply with another slot', 'status' => 200, 'code' => 'MAXIMUM_ENROLLMENT_REACHED']);
+        }
 
         $exist   = $this->fetchStudent($request);
 
+
          if (!isset($exist)){
-
+            
             $student = $this->createStudentAccount($request);
-
+            
             if($this->checkIfStudentEnrollAnyTrainingSlot($student->id) !== null){
                 return response()->json(['message' => 'You can only enrollment for one training slot', 'status' => 200, 'code' => 'ENROLLED']);
             }else{
@@ -44,13 +49,12 @@ class UserController extends Controller
                     'has_completed_payment' => false,
                     'training_slot_id'      => $request['training_slot']
                 ]);
-
             }
 
             return response()->json(['message' => 'Successfully enrolled new student', 'status' => 200, 'code' =>  'NEW_ACCOUNT_CREATION' ]);
 
         }else {
-        
+              
             if($this->checkIfStudentEnrollAnyTrainingSlot($exist->id) !== null){
                 return response()->json(['message' => 'You can only enrollment for one training slot', 'status' => 200, 'code' => 'ENROLLED']);
             }
@@ -236,10 +240,9 @@ class UserController extends Controller
     private function validateEnrollmentNumber(EnrollmentRequest $request)
     {
         $trainingSlot = TrainingSlot::findOrFail($request['training_slot']);
+
         
-        if($trainingSlot->countCompletedEnrollments($trainingSlot->id) > $trainingSlot->available_seats){
-            return response()->json(['message' => 'Training slot already reach the maximum number of avalaible seats. Please apply with another slot', 'status' => 200, 'code' => 'MAXIMUM_ENROLLMENT_REACHED']);
-        }
+        return ($trainingSlot->countCompletedEnrollments($trainingSlot->id) >= $trainingSlot->available_seats);
     }
 
 }

@@ -14,7 +14,7 @@
         x-on:click.prevent="$dispatch('open-modal', 'confirm-program-deletion')"
     >{{ __('Delete Program') }}</x-danger-button>
 
-    <x-modal name="confirm-program-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+    <x-modal name="confirm-program-deletion" :show="$errors->isNotEmpty()" focusable>
         <form method="post" action="{{ route('manage-programs.delete', ['slug' => $program->slug ?? '']) }}" class="p-6">
             @csrf
             @method('delete')

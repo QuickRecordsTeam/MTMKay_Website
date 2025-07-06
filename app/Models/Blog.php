@@ -65,7 +65,6 @@ class Blog extends Model
         $blogCreatedTime = new Carbon($blog->created_at);
         $time = $blogCreatedTime->diffInHours($currentTime);
         $time = round($time);
-//        dd($time);
         $displayTime = "";
         switch ($time){
             case $time < 1:

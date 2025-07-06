@@ -16,7 +16,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://cdn.tiny.cloud/1/j5anuhxqurgaumnivs1fcdlovfp89kfcfdipxxe8zrh6q7sa/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
+        <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -37,10 +37,15 @@
             </x-auth-session-status>
             <!-- Page Content -->
             <main>
+                <div id="loader" style="display:none;">
+                <div class="spinner"></div>
+            </div>
                 {{ $slot }}
             </main>
         </div>
 
+
+        <script src="{{ asset('js/loader.js') }}"></script>
 
 {{--        <script src="/js/functions.js"></script>--}}
         <script src="/js/jquery-3.3.1.min.js"></script>

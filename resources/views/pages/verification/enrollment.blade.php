@@ -1,3 +1,4 @@
+@section('title', 'Enrollment Confirmation')
 <x-guest-nav-layout>
      <h3 class="flex justify-center my-3 font-bold">{{$message}}</h3>
 

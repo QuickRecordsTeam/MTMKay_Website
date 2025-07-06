@@ -41,7 +41,7 @@
                     <p>Stay updated with our latest trainings and blogs</p>
                     <div id="mc_embed_signup">
                         <form id="myForm">
-                            @csrf
+                            
                             <div class="input-group d-flex flex-row">
                                 <input name="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required type="email"/>
                                 <button class="btn  sub-btn" type="submit"  ><span class="lnr lnr-arrow-right"></span></button>

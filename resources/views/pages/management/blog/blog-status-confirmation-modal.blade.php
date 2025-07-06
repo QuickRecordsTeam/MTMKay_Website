@@ -1,4 +1,4 @@
-<x-modal name="approve-blog-state{{$comment->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="name">
+<x-modal name="approve-blog-state{{$comment->id}}" :show="$errors->isNotEmpty()" focusable x-data="name">
     <form method="post" action="{{ route('show.blog.comments.update.status', ['slug' => $comment->slug, 'status' => \App\Constant\BlogState::APPROVED]) }}" class="p-6" >
         @csrf
         @method('put')
@@ -31,7 +31,7 @@
     </form>
 </x-modal>
 
-<x-modal name="reject-blog-state-change{{$comment->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="name">
+<x-modal name="reject-blog-state-change{{$comment->id}}" :show="$errors->isNotEmpty()" focusable x-data="name">
     <form method="post" action="{{ route('show.blog.comments.update.status', ['slug' => $comment->slug, 'status' => \App\Constant\BlogState::REJECTED]) }}" class="p-6" >
         @csrf
         @method('put')
@@ -64,7 +64,7 @@
 </x-modal>
 
 
-<x-modal name="delete-blog-comment{{$comment->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="name">
+<x-modal name="delete-blog-comment{{$comment->id}}" :show="$errors->isNotEmpty()" focusable x-data="name">
     <form method="post" action="{{ route('show.blog.comments.delete', ['slug' => $comment->slug]) }}" class="p-6" >
         @csrf
         @method('delete')
@@ -97,7 +97,7 @@
     </form>
 </x-modal>
 
-<x-modal name="add-update-comment-modal{{$comment->id}}" :show="$errors->userDeletion->isNotEmpty()" focusable x-data="name">
+<x-modal name="add-update-comment-modal{{$comment->id}}" :show="$errors->isNotEmpty()" focusable x-data="name">
     <form method="post" action="{{ route('show.blog.comments.add', ['slug' => $blog->slug]) }}" class="p-6" >
         @csrf
 
@@ -114,28 +114,28 @@
             <x-input-label for="title" :value="__('Name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
                           :value="old('name', $comment->name ?? '')" required autocomplete="name"/>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+            <x-input-error class="mt-2" :messages="$errors->first('name')"/>
         </div>
 
         <div class="grow my-4">
             <x-input-label for="email" :value="__('Email')"/>
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
                           :value="old('email', $comment->email ?? '')" required autocomplete="email"/>
-            <x-input-error class="mt-2" :messages="$errors->get('email')"/>
+            <x-input-error class="mt-2" :messages="$errors->first('email')"/>
         </div>
 
         <div class="grow my-4">
             <x-input-label for="subject" :value="__('Subject')"/>
             <x-text-input id="subject" name="subject" type="text" class="mt-1 block w-full"
                           :value="old('subject', $comment->email ?? '')" required autocomplete="subject"/>
-            <x-input-error class="mt-2" :messages="$errors->get('subject')"/>
+            <x-input-error class="mt-2" :messages="$errors->first('subject')"/>
         </div>
 
         <div class="my-4">
             <x-input-label for="message" :value="__('Message')"/>
             <textarea id="message" name="message" rows="4"
                       class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{old('message', $comment->message ?? '')}}  </textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('message')"/>
+            <x-input-error class="mt-2" :messages="$errors->first('message')"/>
         </div>
 
 
