@@ -31,12 +31,12 @@
                     </div>
                     <div class="info_item">
                         <i class="lnr lnr-phone-handset"></i>
-                        <h6><a href="#">+1 612 224 1176</a></h6>
+                        <h6><a href="#">+237 671 128 616</a></h6>
                         <p>Mon to Saturday 8 am to 9 pm</p>
                     </div>
                     <div class="info_item">
                         <i class="lnr lnr-envelope"></i>
-                        <h6><a href="mailto:mtmkay17@gmail.com">mtmkay17@gmail.com</a></h6>
+                        <h6><a href="mailto:support@mtmkay.com">support@mtmkay.com</a></h6>
                         <p>Send us your query anytime!</p>
                     </div>
                 </div>
