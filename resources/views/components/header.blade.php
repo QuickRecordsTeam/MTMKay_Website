@@ -9,7 +9,7 @@
                 </ul>
             </div>
             <div class="float-right">
-                <a class="dn_btn" href="tel:+16122241176">+1 612 224 1176</a>
+                <a class="dn_btn" href="tel:+237671128616">+237 671 128 616</a>
                 <a class="dn_btn" href="mailto:support@mtmkay.com">support@mtmkay.com</a>
             </div>
         </div>
