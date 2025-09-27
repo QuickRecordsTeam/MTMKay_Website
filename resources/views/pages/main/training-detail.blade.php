@@ -1,6 +1,59 @@
 @section('title', 'MTMKay-Training Program details')
 
 <x-guest-layout>
+    @push('style')
+    <style>
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .d-none {
+            display: none !important;
+        }
+        
+        /* Add smooth transitions */
+        .form-step {
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Add step indicator styling */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .step {
+            text-align: center;
+            margin: 0 15px;
+        }
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            font-weight: bold;
+        }
+        .step.active .step-circle {
+            background: #4a6cf7;
+            color: white;
+        }
+        .step-label {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .step.active .step-label {
+            color: #4a6cf7;
+            font-weight: bold;
+        }
+    </style>
+    @endpush
 
     <!--================Home Banner Area =================-->
     <section class="banner_area">
@@ -116,58 +169,91 @@
     <!--================End Course Details Area =================-->
 
     <!--=================Enrollment Form ========================-->
-    <div id="success" class="modal modal-message fade mt-5" role="dialog" >
-        <div class="modal-dialog modal-sm modal-dialog-centered mt-5 enrollment_modal">
-            <div class="modal-content mt-5">
+<div id="success" class="modal modal-message fade mt-5" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered mt-5 enrollment_modal">
+        <div class="modal-content">
+            <div class="modal-header pb-3">
+                <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close"></i>
+                </button>
+                <h2 class="mb-0 title_color w-100 text-center">Enrollment Form</h2>
+            </div>
+            <div class="modal-body px-4">
+                <form action="{{ route('enroll-student', ['slug' => $program->slug]) }}"  
+                      id="enrollmentForm" method="POST">
+                    @csrf
+
+                    <!-- Personal Information -->
+                    <h5 class="mb-3 text-primary">Personal Information</h5>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Full Name" required class="form-control py-2">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email address" required class="form-control py-2">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="telephone" name="telephone" placeholder="678901234" required class="form-control py-2">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="address" name="address" placeholder="Address" required class="form-control py-2">
+                    </div>
+
+                    <!-- Training Slot -->
+                    <div class="form-group pb-5 w-full">
+                        <h5 class="mt-4 mb-2 text-primary w-100">Training Details</h5>
+                        <select id="training_slot" name="training_slot" required class="form-control py-2">
+                            <option value="">-- Select Training Slot --</option>
+                            @foreach($availableSlots as $slot)
+                                <option value="{{ $slot->id }}">{{ $slot->name }} {{ $slot->start_time }} - {{ $slot->end_time }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Payment -->
+                    <div class="form-group pb-5 w-full">
+                        <h5 class="mt-4 mb-2 text-primary w-100">Payment Details</h5>
+                        <select id="medium" name="medium" required class="form-control py-2">
+                            <option value="">-- Select Payment Method --</option>
+                            <option value="MTN">MTN MoMo</option>
+                            <option value="ORANGE">Orange Money</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" id="amount" name="amount" placeholder="Enter Amount"
+                            min="500" step="100" required class="form-control py-2">
+                    </div>
+
+
+                    <!-- Submit -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn main_btn btn-block submit_enroll_button" id="submitEnrollment">
+                            <span class="btn-text">Enroll & Pay</span>
+                        </button>
+                        <div class="spinner mt-3 loader" style="display: none"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End of Enrollment Form====================-->
+
+<!--======== Payment initiation modal ==============================-->
+    <div id="payment-initiation" class="modal modal-message fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="fa fa-close"></i>
                     </button>
-                    <h2 class="mb-30 title_color">Enrollment Form</h2>
-                    <div>
-                        <form action="{{route('enroll-student', ['slug' => $program->slug])}}"  id="enrollmentForm" method="POST" >
-                            @csrf
-                            <div class="my-md-4 form_input_small_screens">
-                                <input type="text" id="name" name="name" placeholder="Full Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full Name'" required class="single-input py-lg-2">
-                                <span class="error text-danger d-none"></span>
-                            </div>
-                            <div class="my-md-4 form_input_small_screens">
-                                <input type="email" id="email" name="email" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required class="single-input py-lg-2">
-                                <span class="error text-danger d-none"></span>
-                            </div>
-                            <div class="my-md-4 form_input_small_screens">
-                                <input type="tel" id="telephone" name="telephone" placeholder="Telephone" onfocus="this.placeholder = '(+237)678901234'" onblur="this.placeholder = 'Telephone'" required class="single-input py-lg-2">
-                                <span class="error text-danger d-none"></span>
-                            </div>
-                            <div class="my-md-4 form_input_small_screens">
-                                <input type="text" id="address" name="address" placeholder="Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address'" required class="single-input py-lg-2">
-                                <span class="error text-danger d-none"></span>
-                            </div>
-                            <div class="mt-md-4 form_input_small_screens">
-                                <select type="text" id="training_slot" name="training_slot"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Training Slot'" required class="single-input py-lg-2 mb-5">
-                                    @foreach($availableSlots as $slot)
-                                        <option value="{{$slot->id}}">{{$slot->name}} {{$slot->start_time}} - {{$slot->end_time}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="">
-                                <span class="error text-danger"></span>
-                            </div>
-
-                            <div class="mt-lg-5 mb-lg-4">
-                                <button type="submit" value="submit"  class="btn main_btn submit_enroll_button" id="submitEnrollment">
-                                    <span class="btn-text">Enroll Now</span>
-                                </button>
-
-                                <div class="spinner mb-lg-5 loader" style="margin-bottom: 50px; display: none"></div>
-                            </div>
-                        </form>
-                    </div>
+                    <h2>Payment Initiated</h2>
+                    <p>A payment request has been sent to your phone. Please approve it to complete your enrollment.</p>
                 </div>
             </div>
         </div>
     </div>
-    <!--================End of Enrollment Form====================-->
+    <!--======== End Payment initiation modal ==============================-->
 
     <!--================Contact Success and Error message Area =================-->
     <div id="success_new_account" class="modal modal-message fade" role="dialog">
@@ -216,6 +302,22 @@
     </div>
     <!--======== End Success modal for first time enrollment =====================-->
 
+     <!-- =========Modals error ===================================-->
+    <div id="payment-failed" class="modal modal-message fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h2>Payment Failed</h2>
+                    <p> Something went wrong, Please try again! </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================End Contact Success and Error message Area =================-->
+
     <!-- =========Modals error ===================================-->
     <div id="error" class="modal modal-message fade" role="dialog">
         <div class="modal-dialog">
@@ -248,5 +350,170 @@
     </div>
     <!--================End Contact Success and Error message Area =================-->
 
+@push('scripts')
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded - initializing enrollment form");
+        
+        const form = document.getElementById("enrollmentForm");
+        const loader = document.querySelector(".loader");
+        
+        // STEP 1: Fix the modal opening first
+        const enrollmentBtn = document.getElementById("enrollmentBtn");
+        if (enrollmentBtn) {
+            enrollmentBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                console.log("Enrollment button clicked");
+                // Show the enrollment modal using Bootstrap
+                $('#success').modal('show');
+            });
+        }
 
+        // STEP 2: Next/Back button functionality (attach immediately after DOM ready)
+        const nextStepBtn = document.querySelector(".next_step");
+        const prevStepBtn = document.querySelector(".prev_step");
+
+        if (nextStepBtn) {
+            nextStepBtn.addEventListener("click", function () {
+                console.log("Next button clicked");
+                if (validateStep1()) {
+                    const step1 = document.querySelector(".step-1");
+                    const step2 = document.querySelector(".step-2");
+                    if (step1 && step2) {
+                        step1.classList.remove("active");
+                        step1.classList.add("d-none");
+                        step2.classList.remove("d-none");
+                        step2.classList.add("active");
+                        console.log("Moved to step 2");
+                    }
+                }
+            });
+        }
+
+        if (prevStepBtn) {
+            prevStepBtn.addEventListener("click", function () {
+                console.log("Back button clicked");
+                const step1 = document.querySelector(".step-1");
+                const step2 = document.querySelector(".step-2");
+                if (step1 && step2) {
+                    step2.classList.remove("active");
+                    step2.classList.add("d-none");
+                    step1.classList.remove("d-none");
+                    step1.classList.add("active");
+                    console.log("Moved to step 1");
+                }
+            });
+        }
+
+        // Form validation function
+        function validateStep1() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const telephone = document.getElementById('telephone').value;
+            const address = document.getElementById('address').value;
+            const trainingSlot = document.getElementById('training_slot').value;
+            
+            if (!name || !email || !telephone || !address || !trainingSlot) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+            
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // STEP 3: Form submission handler
+        if (form) {
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                console.log("Form submission started");
+                
+                if (loader) loader.style.display = "block";
+
+                try {
+                    let response = await fetch("{{ route('enroll-student', ['slug' => $program->slug]) }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                            "Accept": "application/json",
+                        },
+                        body: new FormData(form),
+                    });
+
+                    let data = await response.json();
+                    console.log("Server response:", data);
+                    
+                    if (loader) loader.style.display = "none";
+
+                    if (data.code === "PAYMENT_INITIATED") {
+                        $("#success").modal("hide");
+                        $("#payment-initiation").modal("show");
+
+                        // extract transactionId
+                        const transactionId = data.details.externalId || data.details.transId;
+                        console.log("Payment initiated, transaction ID:", transactionId);
+
+                        // start polling every 5s
+                        let attempts = 0;
+                        const interval = setInterval(async () => {
+                            attempts++;
+
+                            try {
+                                const res = await fetch(`/enrollment/status/${transactionId}`);
+                                const statusData = await res.json();
+                                console.log("Polling attempt", attempts, "Status:", statusData);
+
+                                if (statusData.status === "SUCCESSFUL") {
+                                    clearInterval(interval);
+                                    $("#payment-initiation").modal("hide");
+                                    $("#success_exist_acc").modal("show");
+                                } else if (statusData.status === "FAILED") {
+                                    clearInterval(interval);
+                                    $("#payment-initiation").modal("hide");
+                                    $("#payment-failed").modal("show");
+                                }
+                            } catch (err) {
+                                console.error("Polling error:", err);
+                            }
+
+                            if (attempts >= 24) {
+                                clearInterval(interval);
+                                $("#payment-initiation").modal("hide");
+                                $("#error").modal("show");
+                            }
+                        }, 5000);
+                    }
+                    else if (data.code === "MAXIMUM_ENROLLMENT_REACHED") {
+                        $("#maximum-slot").modal("show");
+                    } 
+                    else if (data.code === "PAYMENT_FAILED") {
+                        $("#payment-failed").modal("show");
+                    } 
+                    else if (data.code === "ENROLLED") {
+                        $("#success_enrolled").modal("show");
+                    } 
+                    else {
+                        $("#error").modal("show");
+                    }
+                } catch (err) {
+                    if (loader) loader.style.display = "none";
+                    console.error("Form submission error:", err);
+                    $("#error").modal("show");
+                }
+            });
+        }
+        
+        // Add debug logging
+        console.log("Enrollment form script loaded");
+        console.log("Form element:", form);
+        console.log("Enrollment button:", enrollmentBtn);
+    });
+    </script>
+    @endpush
 </x-guest-layout>

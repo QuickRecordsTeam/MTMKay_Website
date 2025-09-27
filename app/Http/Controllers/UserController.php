@@ -13,6 +13,7 @@ use App\Models\Program;
 use App\Models\Role;
 use App\Models\TrainingSlot;
 use App\Models\User;
+use App\Services\FapshiService;
 use App\Traits\SubscriptionTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,60 +23,100 @@ use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     use SubscriptionTrait;
+
     public function enrollStudent($slug, EnrollmentRequest $request)
-    {
+{
+    $program = Program::where('slug', $slug)->firstOrFail();
 
-        $program = Program::where('slug', $slug)->firstOrFail();
+    // Validate user input
+    $request->validate([
+        'training_slot' => 'required|exists:training_slots,id',
+        'amount'        => 'required|numeric|min:500|max:' . $program->cost,
+        'medium'        => 'required|string|in:MTN,ORANGE',
+    ]);
 
-        $isNotOpenForEnrollment = $this->validateEnrollmentNumber($request);
-
-        if($isNotOpenForEnrollment){
-            return response()->json(['message' => 'Training slot already reach the maximum number of avalaible seats. Please apply with another slot', 'status' => 200, 'code' => 'MAXIMUM_ENROLLMENT_REACHED']);
-        }
-
-        $exist   = $this->fetchStudent($request);
-
-
-         if (!isset($exist)){
-            
-            $student = $this->createStudentAccount($request);
-            
-            if($this->checkIfStudentEnrollAnyTrainingSlot($student->id) !== null){
-                return response()->json(['message' => 'You can only enrollment for one training slot', 'status' => 200, 'code' => 'ENROLLED']);
-            }else{
-                Enrollment::create([
-                    'program_id'            => $program->id,
-                    'user_id'               => $student->id,
-                    'has_completed_payment' => false,
-                    'training_slot_id'      => $request['training_slot']
-                ]);
-            }
-
-            return response()->json(['message' => 'Successfully enrolled new student', 'status' => 200, 'code' =>  'NEW_ACCOUNT_CREATION' ]);
-
-        }else {
-              
-            if($this->checkIfStudentEnrollAnyTrainingSlot($exist->id) !== null){
-                return response()->json(['message' => 'You can only enrollment for one training slot', 'status' => 200, 'code' => 'ENROLLED']);
-            }
-            else {
-                $savedEnrollment = Enrollment::create([
-                    'program_id'             => $program->id,
-                    'user_id'                => $exist->id,
-                    'has_completed_payment'  => false,
-                    'enrollment_date'        => Carbon::now(),
-                    'training_slot_id'       => $request['training_slot']
-                ]);
-
-                $emailData = $this->setEmailData($request, $savedEnrollment->trainingSlot, $exist);
-                $this->sendNotificationsUponEnrollment($request, $emailData, $program, $exist, $savedEnrollment->trainingSlot);
-            }
-
-            return response()->json(['message' => 'Successfully enrolled new student', 'status' => 200, 'code' => 'EXISTING_ACCOUNT']);
-        }
-        
+    // Check if slot is available
+    if ($this->validateEnrollmentNumber($request)) {
+        return response()->json([
+            'message' => 'Training slot already reached the maximum number of available seats. Please apply with another slot',
+            'status'  => 409,
+            'code'    => 'MAXIMUM_ENROLLMENT_REACHED'
+        ], 409);
     }
 
+    // Get or create student
+    $student = $this->fetchStudent($request) ?? $this->createStudentAccount($request);
+
+    // Ensure only one enrollment per student
+    if ($this->checkIfStudentEnrollAnyTrainingSlot($student->id)) {
+        return response()->json([
+            'message' => 'You can only enroll for one training slot',
+            'status'  => 409,
+            'code'    => 'ALREADY_ENROLLED'
+        ], 409);
+    }
+
+    // Create enrollment
+    $transactionId = uniqid("txn_");
+    $enrollment = Enrollment::create([
+        'program_id'            => $program->id,
+        'user_id'               => $student->id,
+        'has_completed_payment' => false,
+        'training_slot_id'      => $request['training_slot'],
+        'status'                => 'pending_payment',
+        'transaction_id'        => $transactionId,
+    ]);
+
+    // Create pending transaction with requested amount
+    $enrollment->paymentTransactions()->create([
+        'amount_deposited' => $request->amount,
+        'payment_date'     => now(),
+        'external_id'      => $transactionId,
+    ]);
+
+    // Clean phone format
+    $rawPhone   = preg_replace('/[^0-9]/', '', $student->telephone);
+    $cleanPhone = preg_replace('/^237/', '', $rawPhone);
+
+    // Initiate payment with Fapshi
+    $paymentData = [
+        'amount'     => (int) $request->amount,
+        'phone'      => $cleanPhone,
+        'medium'     => strtolower($request->medium) === 'mtn' ? 'mobile money' : 'orange money',
+        'name'       => $student->name,
+        'email'      => $student->email,
+        'userId'     => (string) $student->id,
+        'externalId' => $transactionId,
+        'message'    => "Enrollment payment for {$program->title}",
+    ];
+
+    $response = app(FapshiService::class)->initiatePayment($paymentData);
+
+    // Debug log for testing
+    \Log::info('Fapshi Response:', $response);
+
+    $isSuccess = (
+        (isset($response['message']) && $response['message'] === 'Accepted') ||
+        (isset($response['status']) && $response['status'] === 'success') ||
+        (isset($response['transId']) && !empty($response['transId']))
+    );
+
+    if ($isSuccess) {
+        return response()->json([
+            'message' => 'Payment request sent to your phone. Please confirm to complete enrollment.',
+            'status'  => 200,
+            'code'    => 'PAYMENT_INITIATED',
+            'details' => $response,
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Unable to initiate payment',
+        'status'  => 400,
+        'code'    => 'PAYMENT_FAILED',
+        'details' => $response,
+    ]);
+}
 
     public function createStudentAccount(EnrollmentRequest $request)
     {
@@ -244,5 +285,25 @@ class UserController extends Controller
         
         return ($trainingSlot->countCompletedEnrollments($trainingSlot->id) >= $trainingSlot->available_seats);
     }
+
+    public function checkEnrollmentStatus($transactionId)
+{
+    $transaction = \App\Models\PaymentTransaction::where('external_id', $transactionId)
+        ->with('enrollment')
+        ->first();
+
+    if (!$transaction) {
+        return response()->json([
+            'status' => 'not_found',
+            'message' => 'Transaction not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => $transaction->enrollment->status,
+        'has_completed_payment' => $transaction->enrollment->has_completed_payment,
+    ]);
+}
+
 
 }

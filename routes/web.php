@@ -16,6 +16,7 @@ use App\Http\Controllers\SubscribersController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TrainingSlotController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -86,4 +87,8 @@ Route::post('manage-subscribers/add-subscriber', [SubscribersController::class, 
 Route::get('manage-subscribers/remove-subscriber', [SubscribersController::class, 'removeMemberSubscription'])->name('manage.subscription.remove');
 Route::get('manage-subscribers/re-subscriber', [SubscribersController::class, 'resubscribe'])->name('manage.subscription.resubscribe');
 Route::get('training/download-ebook', [TrainingController::class, 'downloadEbook'])->name('training.download.ebook');
+Route::get('/payment/callback/{enrollment}', [UserController::class, 'paymentCallback'])->name('payment.callback');
+Route::post('/fapshi/webhook', [WebhookController::class, 'handleFapshiWebhook'])->name('fapshi.webhook');
+Route::get('/enrollment/status/{transactionId}', [WebhookController::class, 'checkPaymentStatus'])->name('enrollment.status');
+
 require __DIR__.'/auth.php';
