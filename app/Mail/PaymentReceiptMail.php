@@ -9,22 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EnrollmentMail extends Mailable
+class PaymentReceiptMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
-    }
-
-    public function build()
-    {
-        return $this->subject('Payment Receipt - ' . $this->data['program']->title)
-            ->markdown('emails.payments.receipt');
+        //
     }
 
     /**
@@ -33,7 +27,7 @@ class EnrollmentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Account Creation',
+            subject: 'Payment Receipt Mail',
         );
     }
 
@@ -43,10 +37,7 @@ class EnrollmentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.enrollment-mail',
-            with: [
-                'data' => $this->data
-            ]
+            markdown: 'emails.payments.receipt',
         );
     }
 

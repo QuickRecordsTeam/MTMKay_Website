@@ -9,17 +9,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PaymentTransaction extends Model
 {
-    use HasFactory, SoftDeletes;
-
-    use GenerateUUIDTrait;
-
+    use HasFactory, SoftDeletes, GenerateUUIDTrait;
 
     protected $fillable = [
         'enrollment_id',
         'amount_deposited',
-        'payment_date'
+        'payment_date',
+        'external_id',
+        'status',   // 🔹 add this so you can store SUCCESS / FAILED from webhook
     ];
 
+    /**
+     * A transaction belongs to an enrollment
+     */
     public function enrollment()
     {
         return $this->belongsTo(Enrollment::class);
