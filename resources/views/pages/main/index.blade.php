@@ -189,82 +189,111 @@
     </section>
     <!--============ End of Why Choose us ================--->
 
-    <!--================Team Area =================-->
-    <section class="testimonials_area p_120">
-        <div class="container">
-            <div class="main_title">
-                <h2>Meet Our Team</h2>
-                <p style="font-size: medium">Our dynamic, certified and well-trained instructors available to provide the top-notch services and training to our clients and students.</p>
+<!--================Team Area =================-->
+<section class="testimonials_area p_120">
+    <div class="container">
+        <div class="main_title">
+            <h2>Meet Our Team</h2>
+            <p style="font-size: medium">
+                Our dynamic, certified and well-trained instructors available to provide top-notch services and training to our clients and students.
+            </p>
+        </div>
+
+        <!-- ROW 1 -->
+        <div class="row justify-content-center team_inner mb-4">
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="team_item">
+                    <div class="team_img">
+                        <img src="img/team/team-1.png" class="rounded-circle" height="250" alt="">
+                        <div class="hover">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="team_name">
+                        <h4>Micheal Mbu</h4>
+                        <p>CEO</p>
+                    </div>
+                </div>
             </div>
-            <div class="row team_inner">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="team_item">
-                        <div class="team_img">
-                            <img class="rounded-circle" src="img/team/team-1.png" alt="" style="border-radius: 50%" height="310px">
-                            <div class="hover">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="team_name">
-                            <h4>Micheal Mbu</h4>
-                            <p>CEO</p>
+
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="team_item">
+                    <div class="team_img">
+                        <img src="img/team/financial_advisor.jpeg" class="rounded-circle" height="250" alt="">
+                        <div class="hover">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="team_item">
-                        <div class="team_img">
-                            <img class="rounded-circle" src="img/team/financial_advisor.jpeg" alt="" style="border-radius: 50%" height="310px">
-                            <div class="hover">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="team_name">
-                            <h4>Shantay Mbu</h4>
-                            <p>Financial Advisor</p>
-                        </div>
+                    <div class="team_name">
+                        <h4>Shantay Mbu</h4>
+                        <p>Financial Advisor</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="team_item">
-                        <div class="team_img">
-                            <img class="rounded-circle" src="img/team/operations_manager.png" alt="" style="border-radius: 50%" height="310px">
-                            <div class="hover">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="team_name">
-                            <h4>Tabi Celine</h4>
-                            <p>Operations Manager</p>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="team_item">
+                    <div class="team_img">
+                        <img src="img/team/operations_manager.png" class="rounded-circle" height="250" alt="">
+                        <div class="hover">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
                         </div>
                     </div>
+                    <div class="team_name">
+                        <h4>Tabi Celine</h4>
+                        <p>Operations Manager</p>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="team_item">
-                        <div class="team_img">
-                            <img class="rounded-circle" src="img/team/team_member_1.jpeg" alt="" style="border-radius: 50%" height="310px">
-                            <div class="hover">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="team_item">
+                    <div class="team_img">
+                        <img src="img/team/team_member_1.jpeg" class="rounded-circle" height="250" alt="">
+                        <div class="hover">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
                         </div>
-                        <div class="team_name">
-                            <h4>Marie Ebangha</h4>
-                            <p>Marketing Manager</p>
-                        </div>
+                    </div>
+                    <div class="team_name">
+                        <h4>Marie Ebangha</h4>
+                        <p>Marketing Manager</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!--================End Team Area =================-->
+
+        <!-- ROW 2 -->
+        <div class="row justify-content-center team_inner">
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="team_item">
+                    <div class="team_img">
+                        <img src="img/team/neba-emmanuel-mtmkay.png" class="rounded-circle" height="250" alt="neba-emmanuel">
+                        <div class="hover">
+                            <a href="https://wa.me/237676607269"><i class="fa fa-whatsapp" target="_blank"></i></a>
+                            <a href="https://github.com/Neba-Emmanuel" target="_blank"><i class="fa fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/neba-emmanuel-web-mobile-developer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="team_name">
+                        <h4>Neba Emmanuel</h4>
+                        <p>IT Officer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!--================End Team Area =================-->
+
 
     <!--================Testimonials Area =================-->
     <section class="team_area p_120">
